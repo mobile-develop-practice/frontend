@@ -5,24 +5,26 @@ import 'package:flutter/services.dart';
 abstract class AppColors {
   static const secondary = Color(0xFF61AAE1);
   static const accent = Color(0xFFF7768E);
-  static const textDark = Color(0xFFFEFEFF);
+  static const textDark = Color(0xFF444444);
   static const textLigth = Color(0xFFFEFEFE);
   static const textFaded = Color(0xFF9899A5);
   static const iconLight = Color(0xFFFEFEFE);
-  static const iconDark = Color(0xFFFEFEFE);
+  static const iconDark = Color(0xFF8A929A);
   static const textHighlight = secondary;
-  static const cardLight = Color(0xFFF9FAFE);
-  static const cardDark = Color(0xFF223040);
+  static const cardLight = Colors.transparent;
+  static const cardDark = Color(0xFFFFFFFF);
 }
 
 abstract class _LightColors {
   static const background = Colors.white;
+  static const scaffoldbar = Color(0xFF588FBA);
   static const card = AppColors.cardLight;
 }
 
 abstract class _DarkColors {
   static const background = Color(0xFF1A232E);
-  static const card = AppColors.cardDark;
+  static const scaffoldbar = Color(0xFF222D3B);
+  static const card = AppColors.cardLight;
 }
 
 /// Reference to the application theme.
@@ -40,6 +42,7 @@ abstract class AppTheme {
         backgroundColor: _LightColors.background,
         scaffoldBackgroundColor: _LightColors.background,
         appBarTheme: const AppBarTheme(
+          color: _LightColors.scaffoldbar,
           systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: Colors.transparent,
               statusBarIconBrightness: Brightness.light,
@@ -62,6 +65,7 @@ abstract class AppTheme {
         backgroundColor: _DarkColors.background,
         scaffoldBackgroundColor: _DarkColors.background,
         appBarTheme: const AppBarTheme(
+          color: _DarkColors.scaffoldbar,
           systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: Colors.transparent,
               statusBarIconBrightness: Brightness.light,
