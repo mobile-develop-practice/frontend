@@ -2,6 +2,8 @@ import 'package:chat/pages/calls_page.dart';
 import 'package:chat/pages/contacts_page.dart';
 import 'package:chat/pages/messages_page.dart';
 import 'package:chat/pages/notifications_page.dart';
+import 'package:chat/theme.dart';
+import 'package:chat/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -48,12 +50,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
-          )),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Avatar.small(
+                url: 'https://avatars.githubusercontent.com/u/25432932?v=4'
+                    .toString(),
+              ),
+            ),
+            const SizedBox(width: 12),
+          ]),
       body: ValueListenableBuilder(
-          valueListenable: pageIndex,
-          builder: (BuildContext context, int value, _) {
-            return pages[value];
-          }),
+        valueListenable: pageIndex,
+        builder: (BuildContext context, int value, _) {
+          return pages[value];
+        },
+      ),
       bottomNavigationBar: _BottomNavigationBar(
         onItemSelected: (index) {
           pageIndex.value = index;
