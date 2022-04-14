@@ -20,6 +20,7 @@ abstract class _LightColors {
   static const scaffoldbar = Color(0xFF588FBA);
   static const bottombar = Color(0xFFFFFFFF);
   static const card = AppColors.cardLight;
+  static const divider = Color(0xFFEAEAEA);
 }
 
 abstract class _DarkColors {
@@ -27,6 +28,7 @@ abstract class _DarkColors {
   static const scaffoldbar = Color(0xFF222D3B);
   static const bottombar = Color(0xFF222D3B);
   static const card = AppColors.cardLight;
+  static const divider = Color(0xFF111B26);
 }
 
 /// Reference to the application theme.
@@ -44,6 +46,7 @@ abstract class AppTheme {
         backgroundColor: _LightColors.background,
         scaffoldBackgroundColor: _LightColors.background,
         bottomAppBarColor: _LightColors.bottombar,
+        dividerColor: _LightColors.divider,
         appBarTheme: const AppBarTheme(
           color: _LightColors.scaffoldbar,
           systemOverlayStyle: SystemUiOverlayStyle(
@@ -68,6 +71,7 @@ abstract class AppTheme {
         backgroundColor: _DarkColors.background,
         scaffoldBackgroundColor: _DarkColors.background,
         bottomAppBarColor: _DarkColors.bottombar,
+        dividerColor: _DarkColors.divider,
         appBarTheme: const AppBarTheme(
           color: _DarkColors.scaffoldbar,
           systemOverlayStyle: SystemUiOverlayStyle(
