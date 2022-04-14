@@ -108,42 +108,49 @@ class __BottomNavigationBarState extends State<_BottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: true,
-      /* minimum: EdgeInsets.all(12), */
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _NavigationBarItem(
-            index: 0,
-            isSelected: (selectedIndex == 0),
-            lable: 'Messages',
-            icon: CupertinoIcons.bubble_left_bubble_right_fill,
-            onTap: handleItemSelected,
+    return Material(
+      elevation: 20,
+      child: Container(
+        color: Theme.of(context).bottomAppBarColor,
+        height: 64,
+        child: SafeArea(
+          top: false,
+          bottom: true,
+          /* minimum: EdgeInsets.all(12), */
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _NavigationBarItem(
+                index: 0,
+                isSelected: (selectedIndex == 0),
+                lable: 'Messages',
+                icon: CupertinoIcons.bubble_left_bubble_right_fill,
+                onTap: handleItemSelected,
+              ),
+              _NavigationBarItem(
+                index: 1,
+                isSelected: (selectedIndex == 1),
+                lable: 'Notifications',
+                icon: CupertinoIcons.bell_solid,
+                onTap: handleItemSelected,
+              ),
+              _NavigationBarItem(
+                index: 2,
+                isSelected: (selectedIndex == 2),
+                lable: 'Calls',
+                icon: CupertinoIcons.phone_fill,
+                onTap: handleItemSelected,
+              ),
+              _NavigationBarItem(
+                index: 3,
+                isSelected: (selectedIndex == 3),
+                lable: 'Contacts',
+                icon: CupertinoIcons.person_2_fill,
+                onTap: handleItemSelected,
+              ),
+            ],
           ),
-          _NavigationBarItem(
-            index: 1,
-            isSelected: (selectedIndex == 1),
-            lable: 'Notifications',
-            icon: CupertinoIcons.bell_solid,
-            onTap: handleItemSelected,
-          ),
-          _NavigationBarItem(
-            index: 2,
-            isSelected: (selectedIndex == 2),
-            lable: 'Calls',
-            icon: CupertinoIcons.phone_fill,
-            onTap: handleItemSelected,
-          ),
-          _NavigationBarItem(
-            index: 3,
-            isSelected: (selectedIndex == 3),
-            lable: 'Contacts',
-            icon: CupertinoIcons.person_2_fill,
-            onTap: handleItemSelected,
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -168,12 +175,14 @@ class _NavigationBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          onTap(index);
-        },
-        child: SizedBox(
-          height: 70,
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        onTap(index);
+      },
+      child: SizedBox(
+        height: 54,
+        child: Align(
+          alignment: Alignment.center,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -193,6 +202,8 @@ class _NavigationBarItem extends StatelessWidget {
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

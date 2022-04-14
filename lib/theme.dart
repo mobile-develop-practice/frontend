@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 abstract class AppColors {
   static const secondary = Color(0xFF61AAE1);
   static const accent = Color(0xFFF7768E);
-  static const textDark = Color(0xFF444444);
+  static const textDark = Color(0xFF242424);
   static const textLigth = Color(0xFFFEFEFE);
   static const textFaded = Color(0xFF9899A5);
   static const iconLight = Color(0xFFFEFEFE);
@@ -18,12 +18,14 @@ abstract class AppColors {
 abstract class _LightColors {
   static const background = Colors.white;
   static const scaffoldbar = Color(0xFF588FBA);
+  static const bottombar = Color(0xFFFFFFFF);
   static const card = AppColors.cardLight;
 }
 
 abstract class _DarkColors {
   static const background = Color(0xFF1A232E);
   static const scaffoldbar = Color(0xFF222D3B);
+  static const bottombar = Color(0xFF222D3B);
   static const card = AppColors.cardLight;
 }
 
@@ -41,6 +43,7 @@ abstract class AppTheme {
             GoogleFonts.mulishTextTheme().apply(bodyColor: AppColors.textDark),
         backgroundColor: _LightColors.background,
         scaffoldBackgroundColor: _LightColors.background,
+        bottomAppBarColor: _LightColors.bottombar,
         appBarTheme: const AppBarTheme(
           color: _LightColors.scaffoldbar,
           systemOverlayStyle: SystemUiOverlayStyle(
@@ -64,6 +67,7 @@ abstract class AppTheme {
             GoogleFonts.interTextTheme().apply(bodyColor: AppColors.textLigth),
         backgroundColor: _DarkColors.background,
         scaffoldBackgroundColor: _DarkColors.background,
+        bottomAppBarColor: _DarkColors.bottombar,
         appBarTheme: const AppBarTheme(
           color: _DarkColors.scaffoldbar,
           systemOverlayStyle: SystemUiOverlayStyle(
