@@ -28,8 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: ValueListenableBuilder(
           valueListenable: pageIndex,
           builder: (BuildContext context, int value, _) {
-              return pages[value];
-            }),
+            return pages[value];
+          }),
       bottomNavigationBar: _BottomNavigationBar(
         onItemSelected: (index) {
           pageIndex.value = index;
@@ -100,6 +100,7 @@ class _NavigationBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () {
           onTap(index);
         },
