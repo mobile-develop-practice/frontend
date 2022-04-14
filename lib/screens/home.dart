@@ -13,6 +13,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ValueNotifier<int> pageIndex = ValueNotifier(0);
+
   final pages = const [
     MessagesPage(),
     NotificationsPage(),
@@ -20,16 +22,17 @@ class _HomeScreenState extends State<HomeScreen> {
     ContactsPage(),
   ];
 
-  var index = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[index],
+      body: ValueListenableBuilder(
+          valueListenable: pageIndex,
+          builder: (BuildContext context, int value, _) {
+              return pages[value];
+            }),
       bottomNavigationBar: _BottomNavigationBar(
         onItemSelected: (index) {
-          setState(() {
-            index = index;
-          });
+          pageIndex.value = index;
         },
       ),
     );
