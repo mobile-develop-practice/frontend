@@ -36,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
           elevation: 0, // 关闭阴影
           centerTitle: true,
           title: ValueListenableBuilder(
@@ -50,6 +49,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
+          ),
+          leadingWidth: 50,
+          leading: Align(
+            alignment: Alignment.centerRight,
+            child: IconBackground(
+              icon: Icons.search,
+              onTap: () {
+                print("Search!");
+              },
+            ),
           ),
           actions: [
             Padding(
