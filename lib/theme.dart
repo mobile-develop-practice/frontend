@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/services.dart';
 
 abstract class AppColors {
   static const secondary = Color(0xFF3B76F6);
@@ -34,10 +35,16 @@ abstract class AppTheme {
         brightness: Brightness.light,
         accentColor: accentColor,
         visualDensity: visualDensity,
-        textTheme: GoogleFonts.mulishTextTheme()
-            .apply(bodyColor: AppColors.textDark),
+        textTheme:
+            GoogleFonts.mulishTextTheme().apply(bodyColor: AppColors.textDark),
         backgroundColor: _LightColors.background,
         scaffoldBackgroundColor: _LightColors.background,
+        appBarTheme: const AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: Brightness.light,
+              statusBarBrightness: Brightness.light),
+        ),
         cardColor: _LightColors.card,
         primaryTextTheme: const TextTheme(
           headline6: TextStyle(color: AppColors.textDark),
@@ -50,10 +57,16 @@ abstract class AppTheme {
         brightness: Brightness.dark,
         accentColor: accentColor,
         visualDensity: visualDensity,
-        textTheme: GoogleFonts.interTextTheme()
-            .apply(bodyColor: AppColors.textLigth),
+        textTheme:
+            GoogleFonts.interTextTheme().apply(bodyColor: AppColors.textLigth),
         backgroundColor: _DarkColors.background,
         scaffoldBackgroundColor: _DarkColors.background,
+        appBarTheme: const AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: Brightness.light,
+              statusBarBrightness: Brightness.light),
+        ),
         cardColor: _DarkColors.card,
         primaryTextTheme: const TextTheme(
           headline6: TextStyle(color: AppColors.textLigth),

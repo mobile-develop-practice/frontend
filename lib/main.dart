@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.dark,
       title: 'Chat',
+      debugShowCheckedModeBanner: false, // 去除Debug Banner
       home: HomeScreen()
     );
   }
