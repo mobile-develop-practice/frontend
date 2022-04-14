@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ValueNotifier<int> pageIndex = ValueNotifier(0);
+  final ValueNotifier<String> title = ValueNotifier('Messages');
 
   final pages = const [
     MessagesPage(),
@@ -22,9 +23,32 @@ class _HomeScreenState extends State<HomeScreen> {
     ContactsPage(),
   ];
 
+  final pageTitles = const [
+    'Messages',
+    'Notification',
+    'Calls',
+    'Contacts',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0, // 关闭阴影
+          centerTitle: true,
+          title: ValueListenableBuilder(
+            valueListenable: title,
+            builder: (BuildContext context, String value, _) {
+              return Text(
+                title.value,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              );
+            },
+          )),
       body: ValueListenableBuilder(
           valueListenable: pageIndex,
           builder: (BuildContext context, int value, _) {
@@ -33,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: _BottomNavigationBar(
         onItemSelected: (index) {
           pageIndex.value = index;
+          title.value = pageTitles[index];
         },
       ),
     );
@@ -138,7 +163,10 @@ class _NavigationBarItem extends StatelessWidget {
               Text(
                 lable,
                 style: isSelected
-                    ? const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.secondary)
+                    ? const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.secondary)
                     : const TextStyle(fontSize: 12),
               ),
             ],
