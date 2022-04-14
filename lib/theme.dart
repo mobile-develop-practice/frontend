@@ -3,16 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
 
 abstract class AppColors {
-  static const secondary = Color(0xFF3B76F6);
-  static const accent = Color(0xFFD6755B);
-  static const textDark = Color(0xFF53585A);
-  static const textLigth = Color(0xFFF5F5F5);
+  static const secondary = Color(0xFF61AAE1);
+  static const accent = Color(0xFFF7768E);
+  static const textDark = Color(0xFFFEFEFF);
+  static const textLigth = Color(0xFFFEFEFE);
   static const textFaded = Color(0xFF9899A5);
-  static const iconLight = Color(0xFFB1B4C0);
-  static const iconDark = Color(0xFFB1B3C1);
+  static const iconLight = Color(0xFFFEFEFE);
+  static const iconDark = Color(0xFFFEFEFE);
   static const textHighlight = secondary;
   static const cardLight = Color(0xFFF9FAFE);
-  static const cardDark = Color(0xFF303334);
+  static const cardDark = Color(0xFF223040);
 }
 
 abstract class _LightColors {
@@ -21,7 +21,7 @@ abstract class _LightColors {
 }
 
 abstract class _DarkColors {
-  static const background = Color(0xFF1B1E1F);
+  static const background = Color(0xFF1A232E);
   static const card = AppColors.cardDark;
 }
 
