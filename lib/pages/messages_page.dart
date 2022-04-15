@@ -41,84 +41,88 @@ class _MessageTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(6),
-          child: Avatar.medium(
-            url: messageData.profilePicture,
+    return InkWell(
+      onTap: () {},
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(6),
+            child: Avatar.medium(
+              url: messageData.profilePicture,
+            ),
           ),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  messageData.senderName,
-                  style: const TextStyle(
-                    letterSpacing: 0.2,
-                    wordSpacing: 1.5,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-                child: Text(
-                  messageData.message,
-                  overflow: TextOverflow.ellipsis,
-                  style:
-                      const TextStyle(fontSize: 16, color: AppColors.textFaded),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Divider(
-                    height: 1,
-                    thickness: 0.5,
-                    color: Theme.of(context).dividerColor),
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const SizedBox(
-                height: 4,
-              ),
-              Text(
-                messageData.dateMessage.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 11,
-                  letterSpacing: -0.2,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textFaded,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Container(
-                width: 18,
-                height: 18,
-                decoration: const BoxDecoration(
-                    color: AppColors.secondary, shape: BoxShape.circle),
-                child: const Center(
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
-                    '1',
-                    style: TextStyle(fontSize: 10, color: AppColors.textLigth),
+                    messageData.senderName,
+                    style: const TextStyle(
+                      letterSpacing: 0.2,
+                      wordSpacing: 1.5,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
-              )
-            ],
+                SizedBox(
+                  height: 20,
+                  child: Text(
+                    messageData.message,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 16, color: AppColors.textFaded),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Divider(
+                      height: 1,
+                      thickness: 0.5,
+                      color: Theme.of(context).dividerColor),
+                )
+              ],
+            ),
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  messageData.dateMessage.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 11,
+                    letterSpacing: -0.2,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textFaded,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  width: 18,
+                  height: 18,
+                  decoration: const BoxDecoration(
+                      color: AppColors.secondary, shape: BoxShape.circle),
+                  child: const Center(
+                    child: Text(
+                      '1',
+                      style:
+                          TextStyle(fontSize: 10, color: AppColors.textLigth),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
