@@ -134,6 +134,16 @@ class __BottomNavigationBarState extends State<_BottomNavigationBar> {
                 icon: CupertinoIcons.bell_solid,
                 onTap: handleItemSelected,
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: ActionButton(
+                  color: AppColors.secondary,
+                  icon: CupertinoIcons.add,
+                  onPressed: () {
+                    print("Add!");
+                  },
+                ),
+              ),
               _NavigationBarItem(
                 index: 2,
                 isSelected: (selectedIndex == 2),
@@ -180,7 +190,7 @@ class _NavigationBarItem extends StatelessWidget {
         onTap(index);
       },
       child: SizedBox(
-        height: 54,
+        width: 70,
         child: Align(
           alignment: Alignment.center,
           child: Column(
