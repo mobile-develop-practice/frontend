@@ -97,6 +97,15 @@ class _BottomNavigationBar extends StatefulWidget {
 }
 
 class __BottomNavigationBarState extends State<_BottomNavigationBar> {
+  final ValueNotifier<IconData> button = ValueNotifier(CupertinoIcons.add);
+
+  final buttonIcons = const [
+    CupertinoIcons.add,
+    CupertinoIcons.pen,
+    CupertinoIcons.phone,
+    CupertinoIcons.person_add_solid,
+  ];
+
   var selectedIndex = 0;
 
   void handleItemSelected(int index) {
@@ -104,6 +113,7 @@ class __BottomNavigationBarState extends State<_BottomNavigationBar> {
       selectedIndex = index;
     });
     widget.onItemSelected(index);
+    button.value = buttonIcons[index];
   }
 
   @override
@@ -134,16 +144,20 @@ class __BottomNavigationBarState extends State<_BottomNavigationBar> {
                 icon: CupertinoIcons.bell_solid,
                 onTap: handleItemSelected,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: ActionButton(
-                  color: AppColors.secondary,
-                  icon: CupertinoIcons.add,
-                  onPressed: () {
-                    print("Add!");
-                  },
-                ),
-              ),
+              ValueListenableBuilder(
+                  valueListenable: button,
+                  builder: (BuildContext context, IconData value, _) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: ActionButton(
+                        color: AppColors.secondary,
+                        icon: button.value,
+                        onPressed: () {
+                          print("Todo!");
+                        },
+                      ),
+                    );
+                  }),
               _NavigationBarItem(
                 index: 2,
                 isSelected: (selectedIndex == 2),
