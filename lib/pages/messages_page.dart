@@ -1,4 +1,5 @@
 import 'package:chat/models/models.dart';
+import 'package:chat/screens/screen.dart';
 import 'package:chat/theme.dart';
 import 'package:chat/widgets/avatar.dart';
 import 'package:faker/faker.dart';
@@ -42,7 +43,9 @@ class _MessageTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+          Navigator.of(context).push(ChatScreen.route(messageData));
+        },
       child: Row(
         children: [
           Padding(
@@ -114,7 +117,7 @@ class _MessageTitle extends StatelessWidget {
                     child: Text(
                       '1',
                       style:
-                          TextStyle(fontSize: 10, color: AppColors.textLigth),
+                          TextStyle(fontSize: 10, color: AppColors.textLight),
                     ),
                   ),
                 )
