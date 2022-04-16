@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          elevation: 0, // 关闭阴影
+          elevation: 2, // 阴影
           centerTitle: true,
           title: ValueListenableBuilder(
             valueListenable: title,
