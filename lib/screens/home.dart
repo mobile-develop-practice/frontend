@@ -1,3 +1,4 @@
+import 'package:chat/main.dart';
 import 'package:chat/pages/calls_page.dart';
 import 'package:chat/pages/contacts_page.dart';
 import 'package:chat/pages/messages_page.dart';
@@ -61,11 +62,38 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Avatar.small(
-                url: 'https://avatars.githubusercontent.com/u/25432932?v=4'
-                    .toString(),
+            PopupMenuButton(
+              elevation: 2,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: const Text("Profile"),
+                  value: 1,
+                  onTap: () {
+                    print("Profile");
+                  },
+                ),
+                PopupMenuItem(
+                  child: const Text("Theme"),
+                  value: 2,
+                  onTap: () {
+                    MyApp.themeSwitch.value =
+                        MyApp.themeSwitch.value == ThemeMode.light
+                            ? ThemeMode.dark
+                            : ThemeMode.light;
+                  },
+                ),
+              ],
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Avatar.small(
+                  url: 'https://avatars.githubusercontent.com/u/25432932?v=4'
+                      .toString(),
+                ),
               ),
             ),
             const SizedBox(width: 12),

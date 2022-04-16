@@ -6,17 +6,22 @@ void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+  static final ValueNotifier<ThemeMode> themeSwitch =
+      ValueNotifier(ThemeMode.light);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
-      themeMode: ThemeMode.light,
-
-      title: 'Chat',
-      debugShowCheckedModeBanner: false, // 去除Debug Banner
-      home: HomeScreen()
+    return ValueListenableBuilder(
+      valueListenable: themeSwitch,
+      builder: (BuildContext contex, ThemeMode currentMode, _) {
+        return MaterialApp(
+            theme: AppTheme.light(),
+            darkTheme: AppTheme.dark(),
+            themeMode: currentMode,
+            title: 'Chat',
+            debugShowCheckedModeBanner: false, // 去除Debug Banner
+            home: HomeScreen());
+      },
     );
   }
 }
