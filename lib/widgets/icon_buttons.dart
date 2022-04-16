@@ -5,16 +5,18 @@ class IconBackground extends StatelessWidget {
   const IconBackground({
     Key? key,
     required this.icon,
+    this.color = AppColors.cardDark,
     required this.onTap,
   }) : super(key: key);
 
   final IconData icon;
+  final Color color;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).cardColor,
+      color: AppColors.cardLight,
       borderRadius: BorderRadius.circular(6),
       child: InkWell(
         borderRadius: BorderRadius.circular(6),
@@ -25,6 +27,7 @@ class IconBackground extends StatelessWidget {
           child: Icon(
             icon,
             size: 22,
+            color: color,
           ),
         ),
       ),
@@ -53,7 +56,7 @@ class IconBorder extends StatelessWidget {
           borderRadius: BorderRadius.circular(6),
           border: Border.all(
             width: 2,
-            color: Theme.of(context).cardColor,
+            color: AppColors.cardLight,
           ),
         ),
         child: Padding(

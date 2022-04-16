@@ -199,7 +199,7 @@ class _NavigationBarItem extends StatelessWidget {
               Icon(
                 icon,
                 size: 20,
-                color: isSelected ? AppColors.secondary : null,
+                color: isSelected ? AppColors.secondary : Colors.grey[400],
               ),
               Text(
                 lable,

@@ -13,13 +13,16 @@ abstract class AppColors {
   static const textHighlight = secondary;
   static const cardLight = Colors.transparent;
   static const cardDark = Color(0xFFFFFFFF);
+  static const messageLight = Color(0xFFFFFFFF);
+  static const messageDark = Color(0xFF232E3A);
+  static const messageOwnColor = Color(0xFF3E6089);
 }
 
 abstract class _LightColors {
   static const background = Colors.white;
   static const scaffoldbar = Color(0xFF588FBA);
   static const bottombar = Color(0xFFFFFFFF);
-  static const card = AppColors.cardLight;
+  static const card = AppColors.messageLight;
   static const divider = Color(0xFFEAEAEA);
 }
 
@@ -27,7 +30,7 @@ abstract class _DarkColors {
   static const background = Color(0xFF1A232E);
   static const scaffoldbar = Color(0xFF222D3B);
   static const bottombar = Color(0xFF222D3B);
-  static const card = AppColors.cardLight;
+  static const card = AppColors.messageDark;
   static const divider = Color(0xFF111B26);
 }
 
