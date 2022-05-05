@@ -42,7 +42,7 @@ abstract class AppTheme {
   /// Light theme and its settings.
   static ThemeData light() => ThemeData(
         brightness: Brightness.light,
-        accentColor: accentColor,
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor),
         visualDensity: visualDensity,
         textTheme:
             GoogleFonts.mulishTextTheme().apply(bodyColor: AppColors.textDark),
@@ -67,7 +67,7 @@ abstract class AppTheme {
   /// Dark theme and its settings.
   static ThemeData dark() => ThemeData(
         brightness: Brightness.dark,
-        accentColor: accentColor,
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor),
         visualDensity: visualDensity,
         textTheme:
             GoogleFonts.interTextTheme().apply(bodyColor: AppColors.textLight),
