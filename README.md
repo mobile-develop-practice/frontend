@@ -1,4 +1,5 @@
-# frontend
+# chat
+![ci workflow](https://github.com/mobile-develop-practice/frontend/actions/workflows/ci.yml/badge.svg) ![releases workflow](https://github.com/mobile-develop-practice/frontend/actions/workflows/release.yml/badge.svg) ![version](https://img.shields.io/github/v/release/mobile-develop-practice/frontend)
 
 A new Flutter project.
 
