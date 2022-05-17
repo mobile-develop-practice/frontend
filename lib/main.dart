@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
             themeMode: currentMode,
             title: 'Chat',
             debugShowCheckedModeBanner: false, // 去除Debug Banner
-            home: HomeScreen());
+            home: LoginPage());
       },
     );
   }
