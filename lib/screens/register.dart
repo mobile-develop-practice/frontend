@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:chat/screens/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:openapi/openapi.dart';
@@ -18,22 +16,45 @@ class _RegisterPageState extends State<RegisterPage> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _mobileController = TextEditingController();
+  String registerMessage = "";
 
-  void _register() {
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _mobileController.dispose();
+    super.dispose();
+  }
+
+  void _register() async {
+    Response response;
     final api = Openapi().getRegisterApi();
     User data = User((b) => b
-      ..username = 'dssb'
-      ..name = 'haifan'
-      ..email = 'test@test3.com'
-      ..mobile = '18958965626'
-      ..password = 'wssb1234');
+      ..username = _usernameController.text
+      ..name = _nameController.text
+      ..email = _emailController.text
+      ..mobile = _mobileController.text
+      ..password = _passwordController.text);
     try {
-      final response = api.registerCreate(data: data);
-      print(response);
+      response = await api.registerCreate(data: data);
+      if (response.statusCode == 201) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      }
+      print(response.data);
     } on DioError catch (e) {
-      print('Exception when calling RegisterApi->registerCreate: $e\n');
+      if (e.response!.statusCode == 400) {
+        print(e.response!.data);
+        setState(() {
+          registerMessage = e.response!.data.toString();
+        });
+      } else
+        print('Exception when calling RegisterApi->registerCreate: $e\n');
     }
-    ;
   }
 
   @override
@@ -112,11 +133,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: const Text('Sign up'),
                   onPressed: () {
                     _register();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()),
-                    );
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 8.0,
@@ -124,6 +140,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       borderRadius: BorderRadius.all(Radius.circular(7.0)),
                     ),
                   ),
+                ),
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                const SizedBox(height: 64.0),
+                Text(
+                  registerMessage,
+                  style: const TextStyle(color: Colors.red, fontSize: 14.0),
                 ),
               ],
             ),

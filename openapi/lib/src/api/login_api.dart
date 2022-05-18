@@ -30,6 +30,7 @@ class LoginApi {
   /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> loginCreate({ 
+    required Map<String, dynamic> data,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -58,6 +59,7 @@ class LoginApi {
 
     final _response = await _dio.request<Object>(
       _path,
+      data: data,
       options: _options,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
