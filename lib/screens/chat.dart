@@ -1,20 +1,23 @@
+import 'dart:convert';
+
 import 'package:chat/models/models.dart';
 import 'package:chat/theme.dart';
-import 'package:chat/widgets/avatar.dart';
-import 'package:chat/widgets/icon_buttons.dart';
 import 'package:chat/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:web_socket_channel/io.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
+  List<Widget> messageslist = <Widget>[];
+
   static Route route(MessageData data) => MaterialPageRoute(
         builder: (context) => ChatScreen(
           messageData: data,
         ),
       );
 
-  const ChatScreen({
+  ChatScreen({
     Key? key,
     required this.messageData,
   }) : super(key: key);
@@ -22,62 +25,206 @@ class ChatScreen extends StatelessWidget {
   final MessageData messageData;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: Theme.of(context).iconTheme,
-        centerTitle: false,
-        elevation: 2,
-        leadingWidth: 48,
-        leading: Align(
-          alignment: Alignment.centerRight,
-          child: IconBackground(
-            icon: Icons.arrow_back,
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ),
-        title: _AppBarTitle(messageData: messageData),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Center(
-              child: IconBorder(
-                icon: CupertinoIcons.phone_solid,
-                onTap: () {
-                  print("phone");
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Center(
-              child: IconBorder(
-                icon: CupertinoIcons.ellipsis_vertical,
-                onTap: () {
-                  print("ellipsis_vertical");
-                },
-              ),
-            ),
-          ),
-        ],
+  _ChatScreen createState() => _ChatScreen();
+}
+
+class _ChatScreen extends State<ChatScreen> {
+  late IOWebSocketChannel channel; //channel varaible for websocket
+  late bool connected; // boolean value to track connection status
+
+  @override
+  void initState() {
+    widget.messageslist.add(
+      _DateLable(
+        dateTime: widget.messageData.MessageDate,
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/background.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              child: _MessageList(),
+    );
+    widget.messageslist.add(
+      _MessageTile(
+        message: widget.messageData.message,
+        messageDate: Jiffy(widget.messageData.MessageDate).Hm,
+      ),
+    );
+    widget.messageslist.add(
+      const _MessageOwnTile(
+        message: 'Hello, world!',
+        messageDate: '12:03',
+      ),
+    );
+    channelconnect();
+    super.initState();
+  }
+
+  channelconnect() {
+    //function to connect
+    try {
+      channel = IOWebSocketChannel.connect(
+          "ws://192.168.43.11:8000/ws/chat/123/"); //channel IP : Port
+      channel.stream.listen(
+        (message) {
+          print(message);
+          setState(() {
+            print("Message data");
+            message = message.replaceAll(RegExp("'"), '"');
+            var jsondata = json.decode(message);
+
+            if (jsondata['from'] == 'host') {
+              widget.messageslist.add(_MessageTile(
+                  message: jsondata['message'],
+                  messageDate: Jiffy(DateTime.now()).Hm));
+              setState(() {
+                //update UI after adding data to message model
+              });
+            }
+          });
+        },
+        onDone: () {
+          //if WebSocket is disconnected
+          print("Web socket is closed");
+          setState(() {
+            connected = false;
+          });
+        },
+        onError: (error) {
+          print(error.toString());
+        },
+      );
+    } catch (_) {
+      print("error on connecting to websocket.");
+    }
+  }
+
+  final _messageController = TextEditingController();
+
+  @override
+  void dispose() {
+    channel.sink.close();
+    _messageController.dispose();
+    super.dispose();
+  }
+
+  void _sendMessage() {
+    if (_messageController.text.isNotEmpty) {
+      widget.messageslist.add(
+        _MessageOwnTile(
+            message: _messageController.text,
+            messageDate: Jiffy(DateTime.now()).Hm),
+      );
+      channel.sink.add(jsonEncode({'from': 'client', 'message': _messageController.text}));
+      _messageController.clear();
+
+      setState(() {});
+    } else {
+      setState(() {});
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          iconTheme: Theme.of(context).iconTheme,
+          centerTitle: false,
+          elevation: 2,
+          leadingWidth: 48,
+          leading: Align(
+            alignment: Alignment.centerRight,
+            child: IconBackground(
+              icon: Icons.arrow_back,
+              onTap: () {
+                Navigator.of(context).pop();
+              },
             ),
-            _ActionBar(),
+          ),
+          title: _AppBarTitle(messageData: widget.messageData),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Center(
+                child: IconBorder(
+                  icon: CupertinoIcons.phone_solid,
+                  onTap: () {
+                    print("phone");
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Center(
+                child: IconBorder(
+                  icon: CupertinoIcons.ellipsis_vertical,
+                  onTap: () {
+                    print("ellipsis_vertical");
+                  },
+                ),
+              ),
+            ),
           ],
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/background.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: MessageList(widget.messageslist),
+              ),
+              Container(
+                color: Theme.of(context).bottomAppBarColor,
+                child: SafeArea(
+                  bottom: true,
+                  top: false,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: IconBackground(
+                          color: AppColors.textFaded,
+                          onTap: () {},
+                          icon: CupertinoIcons.paperclip,
+                        ),
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: _messageController,
+                          style: const TextStyle(fontSize: 18),
+                          onSubmitted: (String t) {
+                            _sendMessage();
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Message',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: IconBackground(
+                          color: AppColors.secondary,
+                          icon: Icons.send_rounded,
+                          onTap: () {
+                            _sendMessage();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -129,42 +276,28 @@ class _AppBarTitle extends StatelessWidget {
   }
 }
 
-class _MessageList extends StatelessWidget {
-  const _MessageList({Key? key}) : super(key: key);
+class MessageList extends StatefulWidget {
+  late List<Widget> messageslist;
+
+  MessageList(this.messageslist, {Key? key}) : super(key: key);
+
+  @override
+  _MessageList createState() => _MessageList();
+}
+
+class _MessageList extends State<MessageList> {
+  late List<Widget> messageslist;
+
+  @override
+  void initState() {
+    messageslist = widget.messageslist;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: [
-        _DateLable(
-          dateTime: DateTime.utc(2022, 2, 14, 23, 23),
-        ),
-        _MessageTile(
-          message: 'Hello, world!',
-          messageDate: '12:01 PM',
-        ),
-        _MessageOwnTile(
-          message: 'Hello, world!',
-          messageDate: '12:02 PM',
-        ),
-        _MessageTile(
-          message: 'Hello, world!',
-          messageDate: '12:02 PM',
-        ),
-        _MessageOwnTile(
-          message: 'Hello, world!',
-          messageDate: '12:03 PM',
-        ),
-        _MessageTile(
-          message: 'Hello, world!',
-          messageDate: '12:03 PM',
-        ),
-        _MessageOwnTile(
-          message:
-              'Hello, world! arsioten arseitnarst arstoienarsoietnarst eionaarstarstarstarstarst',
-          messageDate: '12:03 PM',
-        ),
-      ],
+      children: messageslist,
     );
   }
 }
@@ -364,52 +497,6 @@ class _MessageOwnTile extends StatelessWidget {
                 ),
               ),
             )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ActionBar extends StatelessWidget {
-  const _ActionBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).bottomAppBarColor,
-      child: SafeArea(
-        bottom: true,
-        top: false,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: IconBackground(
-                color: AppColors.textFaded,
-                onTap: () {},
-                icon: CupertinoIcons.paperclip,
-              ),
-            ),
-            const Expanded(
-              child: TextField(
-                style: TextStyle(fontSize: 18),
-                decoration: InputDecoration(
-                  hintText: 'Message',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: IconBackground(
-                color: AppColors.secondary,
-                icon: Icons.send_rounded,
-                onTap: () {
-                  print("Todo");
-                },
-              ),
-            ),
           ],
         ),
       ),
